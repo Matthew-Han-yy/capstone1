@@ -1,8 +1,15 @@
-## Welcome to GitHub Pages
+## Ethereum Price Trend Prediction Analysis 
+Ethereum is a decentralized platform that runs smart contracts: applications that run exactly as programmed without any possibility of downtime, censorship, fraud or third-party interference. These apps run on a custom built blockchain, an enormously powerful shared global infrastructure that can move value around and represent the ownership of property.
 
-You can use the [editor on GitHub](https://github.com/Matthew-Han-yy/capstone1/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+The goal of this project is not giving readers about the screws and bolts of the technology behind Ethereum but more about its price trend prediction, thus being more investor-friendly. Here we go!
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Where we get our ether price data
+We highly recommend https://poloniex.com/. It provides almost real-time price data on various digital currency including ether. Our product pulls price data of ether with 5 minutes interval. You may also wish to customize the interval to your liking. Below is a chart of Ether closing price from its inception until now. 
+
+
+
+
+
 
 ### Markdown
 
