@@ -56,7 +56,7 @@ A summary report of the stepwise_model:
 
 ### Interpreting the summary report
 
-The coef column shows the weight (i.e. importance) of each feature and how each one impacts the time series. The P>|z| column informs us of the significance of each feature weight. Here, each weight has a p-value lower or close to 0.05, so it is reasonable to retain all of them in our model. The Jarque-Bera test is a goodness-of-fit test of whether the data has the skewness and kurtosis of a normal distribution. The normal distribution has a skew of 1.35 and a kurtosis of 4.96.
+The **coef** column shows the weight (i.e. importance) of each feature and how each one impacts the time series. The **P>|z|** column informs us of the significance of each feature weight. Here, each weight has a p-value lower or close to 0.05, so it is reasonable to retain all of them in our model. The **Jarque-Bera** test is a goodness-of-fit test of whether the data has the skewness and kurtosis of a normal distribution. The normal distribution has a skew of **1.35** and a kurtosis of **4.96**.
 
 ### Plot model diagnostics
 When fitting seasonal ARIMA models (and any other models for that matter), it is important to run model diagnostics to ensure that none of the assumptions made by the model have been violated. The plot_diagnostics object allows us to quickly generate model diagnostics and investigate for any unusual behavior.
@@ -64,8 +64,43 @@ When fitting seasonal ARIMA models (and any other models for that matter), it is
 ![plotdiagnostics](/image/sarimax/plotdiagnostics.png)
 
 We need to ensure that the residuals of our model are randomly distributed with zero-mean and not serially correlate, i. e. we’d like the remaining information to be white noise. If the fitted seasonal ARIMA model does not satisfy these properties, it is a good indication that it can be further improved.
-The residual plot of the fitted model in the upper left corner appears do be white noise as it does not display obvious seasonality or trend behaviour. The histogram plot in the upper right corner pair with the kernel density estimation (red line) indicates that the time series is almost normally distributed. This is compared to the density of the standard normal distribution (green line). The correlogram (autocorrelation plot) confirms this resuts, since the time series residuals show low correlations with lagged residuals.
+The **residual** plot of the fitted model in the upper left corner appears do be white noise as it does not display obvious seasonality or trend behaviour. The **histogram** plot in the upper right corner pair with the kernel density estimation (red line) indicates that the time series is almost normally distributed. This is compared to the density of the standard normal distribution (green line). The **correlogram** (autocorrelation plot) confirms this resuts, since the time series residuals show low correlations with lagged residuals.
 Although the fit so far appears to be fine, a better fit could be achieved with a more complex model.
+
+### Sarimax In-Sample Prediction
+```
+`res = sm.tsa.statespace.SARIMAX(series,
+                                order=(1,1,1),
+                                seasonal_order=(1,1,1,12),
+                                enforce_stationarity=True,
+                                enforce_invertibility=True).fit()`
+                                
+`pred = res.get_prediction(start=pd.to_datetime('2018-01-07'), 
+                          end=pd.to_datetime('2018-08-12'),
+                          dynamic=True, full_results=True)`
+                          
+`pred_ci = pred.conf_int()`
+
+```
+
+### Sarimax Out-Sample Prediction
+```
+`pred_uc = res.get_forecast(steps=12)`
+
+`pred_ci = pred_uc.conf_int()`
+```
+
+### Notes: 
+1. The **get_prediction** and **conf_int** methods calculate predictions for future points in time for the previously fitted model and the confidence intervals associated with a prediction, respectively. The **dynamic=False** argument causes the method to produce a one-step ahead prediction of the time series.
+2. If you are forecasting for an observation that was part of the data sample - it is in-sample forecast. If you are forecasting for an observation that was not part of the data sample - it is out-of-sample forecast.
+
+
+
+
+
+
+
+
 
 
 
