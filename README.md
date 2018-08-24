@@ -22,11 +22,50 @@ Time decomposition charts are useful to get an initial feel of the time series d
 
 ![timedecomp1](/image/arima/rollingmeanchart.png)
 
-Next, I did a first order differencing and tested for stationarity in the time series data. p < 0.05, hence we conclude the differenced time series is now statationary.
+Next, I did a first order differencing and tested for stationarity in the time series data. p < 0.05, hence we can conclude the differenced time series is now statationary.
 
 ![stationarity](/image/arima/stationarity.png)
 
+### ACF and PACF
+The ACF plot is merely a bar chart of the coefficients of correlation between a time series and lags of itself. The PACF plot is a plot of the partial correlation coefficients between the series and lags of itself. By looking at the autocorrelation function (ACF) and partial autocorrelation (PACF) plots of the differenced series, i can tentatively identify the numbers of AR and/or MA terms that are needed. 
 
+![acfpacf](/image/arima/acfpacf.png)
+
+### Fit and plot the ARIMA model
+
+
+## SARIMAX model
+I also tried using Auto-Arima from the **pyramid.arima** library to help me in finding the optimal model in this approach. 
+
+`stepwise_model = auto_arima(series, start_p=1, start_q=1,
+                           max_p=3, max_q=3, m=12,
+                           start_P=0, seasonal=True,
+                           d=1, D=1, trace=True,
+                           error_action='ignore',  
+                           suppress_warnings=True, 
+                           stepwise=True)
+print(stepwise_model.aic())`
+
+The output of auto-arima suggests that using the model SARIMAX(1, 1, 1)x(1, 1, 1, 12) which yields the lowest AIC value of 1600.029. Therefore, this is to be optimal option out of all the models.
+
+A summary report of the stepwise_model:
+
+`stepwise_model.summary()`
+
+![sarimaxsummary](/image/sarimax/sarimaxsummary.png)
+
+### Interpreting the summary report
+
+The coef column shows the weight (i.e. importance) of each feature and how each one impacts the time series. The P>|z| column informs us of the significance of each feature weight. Here, each weight has a p-value lower or close to 0.05, so it is reasonable to retain all of them in our model. The Jarque-Bera test is a goodness-of-fit test of whether the data has the skewness and kurtosis of a normal distribution. The normal distribution has a skew of 1.35 and a kurtosis of 4.96.
+
+### Plot model diagnostics
+When fitting seasonal ARIMA models (and any other models for that matter), it is important to run model diagnostics to ensure that none of the assumptions made by the model have been violated. The plot_diagnostics object allows us to quickly generate model diagnostics and investigate for any unusual behavior.
+
+![plotdiagnostics](/image/sarimax/plotdiagnostics.png)
+
+We need to ensure that the residuals of our model are randomly distributed with zero-mean and not serially correlate, i. e. we’d like the remaining information to be white noise. If the fitted seasonal ARIMA model does not satisfy these properties, it is a good indication that it can be further improved.
+The residual plot of the fitted model in the upper left corner appears do be white noise as it does not display obvious seasonality or trend behaviour. The histogram plot in the upper right corner pair with the kernel density estimation (red line) indicates that the time series is almost normally distributed. This is compared to the density of the standard normal distribution (green line). The correlogram (autocorrelation plot) confirms this resuts, since the time series residuals show low correlations with lagged residuals.
+Although the fit so far appears to be fine, a better fit could be achieved with a more complex model.
 
 
 
