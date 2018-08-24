@@ -18,6 +18,14 @@ I tried out the ARIMA, SARIMAX models for statsmodels and for the deep learning 
 
 ## ARIMA model
 
+Time decomposition charts are useful to get an initial feel of the time series data. Here, the additive Time Decomposition chart shows some trend, seasonality and noise detected in the time series data. 
+
+![timedecomp1](/image/arima/rollingmeanchart.png)
+
+Next, I did a first order differencing and tested for stationarity in the time series data. p < 0.05, hence we conclude the differenced time series is now statationary.
+
+![stationarity](/image/arima/stationarity.png)
+
 
 
 
