@@ -57,7 +57,9 @@ A summary report of the stepwise_model:
 
 ### Interpreting the summary report
 
-The **coef** column shows the weight (i.e. importance) of each feature and how each one impacts the time series. The **P>|z|** column informs us of the significance of each feature weight. Here, each weight has a p-value lower or close to 0.05, so it is reasonable to retain all of them in our model. The **Jarque-Bera** test is a goodness-of-fit test of whether the data has the skewness and kurtosis of a normal distribution. The normal distribution has a skew of **1.35** and a kurtosis of **4.96**.
+The **coef** column shows the weight (i.e. importance) of each feature and how each one impacts the time series. 
+The **P>|z|** column informs us of the significance of each feature weight. Here, each weight has a p-value lower or close to 0.05, so it is reasonable to retain all of them in our model. 
+The **Jarque-Bera** test is a goodness-of-fit test of whether the data has the skewness and kurtosis of a normal distribution. The normal distribution has a skew of **1.35** and a kurtosis of **4.96**.
 
 ### Plot model diagnostics
 When fitting seasonal ARIMA models (and any other models for that matter), it is important to run model diagnostics to ensure that none of the assumptions made by the model have been violated. The plot_diagnostics object allows us to quickly generate model diagnostics and investigate for any unusual behavior.
