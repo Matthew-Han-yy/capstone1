@@ -3,12 +3,20 @@ Ethereum is a decentralized platform that runs smart contracts: applications tha
 
 The goal of this project is not giving readers about the screws and bolts of the technology behind Ethereum but more about its price trend prediction, thus being more investor-friendly. Here we go!
 
-### Where we get our ether price data
-We highly recommend https://poloniex.com/. It provides almost real-time price data on various digital currency including ether. My project pulls price data of ether with 5 minutes interval. You may also wish to customize the interval to your liking. Below is a chart of Ether closing price from its inception until now. 
+### Where I got my ether price data
+I highly recommend https://poloniex.com/. It provides almost real-time price data on various digital currency including ether. My project pulls price data of ether with 5 minutes interval. You may also wish to customize the interval to your liking. Below is a chart of Ether closing price from its inception until now. 
 
 ![ethcloseprice](/image/ethcloseprice.png)
 
+Below is a rolling mean chart. 
 
+![rollingmeanchart](/image/rollingmeanchart.png)
+
+
+## Models I used
+I tried out the ARIMA, SARIMAX models for statsmodels and for the deep learning part, I tried out Multilayer Perceptron network (MLP) and Long Short Term Memory models (LSTM).
+
+## ARIMA model
 
 
 
