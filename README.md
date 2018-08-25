@@ -20,7 +20,7 @@ I tried out the ARIMA, SARIMAX models for statsmodels and for the deep learning 
 
 Time decomposition charts are useful to get an initial feel of the time series data. Here, the additive Time Decomposition chart shows some trend, seasonality and noise detected in the time series data. 
 
-![timedecomp1](/image/arima/rollingmeanchart.png)
+![timedecomp1](/image/arima/timedecomp1.png)
 
 Next, I did a first order differencing and tested for stationarity in the time series data. p < 0.05, hence we can conclude the differenced time series is now statationary.
 
@@ -35,6 +35,14 @@ The ACF plot is merely a bar chart of the coefficients of correlation between a 
 
 
 ## SARIMAX model
+
+For this model, I demonstrated with the weekly closing price and normalized it through a Box-Cox transformation.
+
+![weekclose](/image/sarimax/weekclose.png)
+
+![boxcox](/image/sarimax/boxcox.png)
+
+
 I also tried using Auto-Arima from the **pyramid.arima** library to help me in finding the optimal model in this approach. 
 ```
 # Auto Arima
