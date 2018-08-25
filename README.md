@@ -56,24 +56,24 @@ stepwise_model = auto_arima(weeklyclose_t, start_p=1, start_q=1,
 print(stepwise_model.aic())
 ```
 
-The output of auto-arima suggests that using the model SARIMAX(1, 1, 1)x(1, 1, 1, 12) which yields the lowest AIC value of 1600.029. Therefore, this is to be optimal option out of all the models.
+The output of our code suggests that using the model SARIMAX(2, 1, 0)x(0, 1, 1, 12) which yields the lowest AIC value of -97.012. We should therefore consider this to be optimal option out of all the models we have generated.
 
 A summary report of the stepwise_model:
 
 `stepwise_model.summary()`
 
-![sarimaxsummary](/image/sarimax/sarimaxsummary.png)
+![sarimaxsummary1](/image/sarimax/sarimaxsummary1.png)
 
 ### Interpreting the summary report
 
 The **coef** column shows the weight (i.e. importance) of each feature and how each one impacts the time series. 
 The **P>|z|** column informs us of the significance of each feature weight. Here, each weight has a p-value lower or close to 0.05, so it is reasonable to retain all of them in our model. 
-The **Jarque-Bera** test is a goodness-of-fit test of whether the data has the skewness and kurtosis of a normal distribution. The normal distribution has a skew of **1.35** and a kurtosis of **4.96**.
+The **Jarque-Bera** test is a goodness-of-fit test of whether the data has the skewness and kurtosis of a normal distribution. The normal distribution has a skew of **0.22** and a kurtosis of **3.67**.
 
 ### Plot model diagnostics
 When fitting seasonal ARIMA models (and any other models for that matter), it is important to run model diagnostics to ensure that none of the assumptions made by the model have been violated. The plot_diagnostics object allows us to quickly generate model diagnostics and investigate for any unusual behavior.
 
-![plotdiagnostics](/image/sarimax/plotdiagnostics.png)
+![plotdiag](/image/sarimax/plotdiag.png)
 
 We need to ensure that the residuals of our model are randomly distributed with zero-mean and not serially correlate, i. e. we’d like the remaining information to be white noise. If the fitted seasonal ARIMA model does not satisfy these properties, it is a good indication that it can be further improved.
 The **residual** plot of the fitted model in the upper left corner appears do be white noise as it does not display obvious seasonality or trend behaviour. The **histogram** plot in the upper right corner pair with the kernel density estimation (red line) indicates that the time series is almost normally distributed. This is compared to the density of the standard normal distribution (green line). The **correlogram** (autocorrelation plot) confirms this resuts, since the time series residuals show low correlations with lagged residuals.
@@ -89,19 +89,25 @@ pred_ci = pred.conf_int()
 
 ```
 
-![insample](/image/sarimax/insample.png)
+![insample1](/image/sarimax/insample1.png)
 
-Prediction quality: 283.56 RMSE
+Prediction quality: 1.73 MSE (1.31 RMSE) 
+Very good!
 
 
 ### Sarimax Out-Sample Prediction
+
+Forecasting for the next 3 months,
+
 ```
 pred = res_s.get_prediction(start=pd.to_datetime('2018-08-19'), end=pd.to_datetime('2018-12-19'))
 pred_ci = pred.conf_int()
 
 ```
 
-![outsample](/image/sarimax/outsample.png)
+After doing a reverse transformation, 
+
+![outsample1](/image/sarimax/outsample1.png)
 
 ### Notes: 
 1. The **get_prediction** and **conf_int** methods calculate predictions for future points in time for the previously fitted model and the confidence intervals associated with a prediction, respectively. The **dynamic=False** argument causes the method to produce a one-step ahead prediction of the time series.
