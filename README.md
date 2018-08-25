@@ -61,6 +61,11 @@ tt = np.asarray(tt)
 print(tt[tt[:,1].argmax()])
 
 ```
+```
+from scipy import special
+
+ax = special.boxcox(df_weeklyclose['close'], 0).rolling(window=4).std().plot(figsize=(12,6))
+```
 
 ![boxcox](/image/sarimax/boxcox.png)
 
