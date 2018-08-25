@@ -85,6 +85,10 @@ print(stepwise_model.aic())
 
 The output of our code suggests that using the model SARIMAX(2, 1, 0)x(0, 1, 1, 12) which yields the lowest AIC value of -97.012. We should therefore consider this to be optimal option out of all the models we have generated.
 
+### What is the Akaike Information Criterion (AIC)?
+
+The Akaike information criterion (AIC) is an estimator of the relative quality of statistical models for a given set of data. Given a collection of models for the data, AIC estimates the quality of each model, relative to each of the other models.
+
 A summary report of the stepwise_model:
 
 `stepwise_model.summary()`
