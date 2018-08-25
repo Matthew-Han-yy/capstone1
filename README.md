@@ -234,8 +234,59 @@ The accuracy for our test set has improved compared to the first neural network 
 
 ### Long Short Term Memory Network (LSTM)
 
+A Long short-term memory (LSTM) is a type of Recurrent Neural Network specially designed to prevent the neural network output for a given input from either decaying or exploding as it cycles through the feedback loops. Long short-term memory networks provide better performance compared to other RNN architectures by alleviating what is called the vanishing gradient problem.
+
+![lstm](/image/lstm/lstm.png)
+
+The 5-mins interval data was normalized using MinMaxScaler, 
+```
+mms = MinMaxScaler(feature_range=(-1,1))
+eth_norm = pd.DataFrame(mms.fit_transform(df_eth_close), columns=df_eth_close.columns)
+
+```
+
+![minmax](/image/lstm/minmax.png)
+
+The dataset is split into 80% training set and 20% test set. Then we create a LSTM model.
+
+```
+model = Sequential()
+# Remember: "batch_input_shape" and specify the batch size
+model.add(LSTM(32, batch_input_shape=(1, 1, Xtrain.shape[2]), stateful=True))
+model.add(Dense(Xtrain.shape[2]))
+model.compile(loss='mean_squared_error', optimizer='adam')
+model.summary()
+```
+
+After creating the model, I trained the model on the training data set over 20 epochs.
+```
+for i in range(20):
+    if (i % 5) == 0:
+        print 'ITER:', i
+        model.fit(Xtrain, Ytrain, nb_epoch=1, batch_size=1, verbose=1, shuffle=False)
+    else:
+        model.fit(Xtrain, Ytrain, nb_epoch=1, batch_size=1, verbose=0, shuffle=False)
+    model.reset_states()
+``` 
+
+A plot of the prediction against the actual, with **R2 score = 0.63** looks pretty promising.
+
+![lstmpred](/image/lstm/lstmpred.png)
 
 
+### Next steps
+#### Hyperparamters tuning
+Hyperparameter tuning can be explored, we can take note of the following points if we were to manually optimize hyperparameters for RNNs.
+
+1. Watch out for overfitting. Overfitting means you get great performance on training data, but the network’s model is useless for out-of-sample prediction. 
+2. Regularization helps: regularization methods include l1, l2, and dropout among others. 
+3. More data is almost always better, because it helps fight overfitting. 
+4. Train over multiple epochs (complete passes through the dataset). Evaluate test set performance at each epoch to know when to stop (early stopping). 
+5. The learning rate is the single most important hyperparameter. 
+
+## In Conclusion
+To predict the future price of cryptocurrencies is tougher than it looks. I've tried Arima, Sarimax, MLPN and LSTM. In some cases the results look promising. But there are also alot more details that can still be improved.
+    
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
