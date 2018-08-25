@@ -274,7 +274,7 @@ A plot of the prediction against the actual, with **R2 score = 0.63** looks pret
 ![lstmpred](/image/lstm/lstmpred.png)
 
 
-### Next steps
+## Next steps
 #### Hyperparamters tuning
 Hyperparameter tuning can be explored, we can take note of the following points if we were to manually optimize hyperparameters for RNNs.
 
