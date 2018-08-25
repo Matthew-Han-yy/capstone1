@@ -37,14 +37,15 @@ The ACF plot is merely a bar chart of the coefficients of correlation between a 
 ## SARIMAX model
 I also tried using Auto-Arima from the **pyramid.arima** library to help me in finding the optimal model in this approach. 
 ```
-`stepwise_model = auto_arima(series, start_p=1, start_q=1,
+# Auto Arima
+stepwise_model = auto_arima(weeklyclose_t, start_p=1, start_q=1,
                            max_p=3, max_q=3, m=12,
                            start_P=0, seasonal=True,
                            d=1, D=1, trace=True,
                            error_action='ignore',  
                            suppress_warnings=True, 
                            stepwise=True)
-print(stepwise_model.aic())`
+print(stepwise_model.aic())
 ```
 
 The output of auto-arima suggests that using the model SARIMAX(1, 1, 1)x(1, 1, 1, 12) which yields the lowest AIC value of 1600.029. Therefore, this is to be optimal option out of all the models.
@@ -72,17 +73,11 @@ Although the fit so far appears to be fine, a better fit could be achieved with 
 
 ### Sarimax In-Sample Prediction
 ```
-`res = sm.tsa.statespace.SARIMAX(series,
-                                order=(1,1,1),
-                                seasonal_order=(1,1,1,12),
-                                enforce_stationarity=True,
-                                enforce_invertibility=True).fit()`
-                                
-`pred = res.get_prediction(start=pd.to_datetime('2018-01-07'), 
-                          end=pd.to_datetime('2018-08-12'),
-                          dynamic=True, full_results=True)`
-                          
-`pred_ci = pred.conf_int()`
+pred = res_s.get_prediction(start=pd.to_datetime('2018-01-07'), 
+                          end=pd.to_datetime('2018-08-19'),
+                          dynamic=True, full_results=True)
+
+pred_ci = pred.conf_int()
 
 ```
 
@@ -93,9 +88,9 @@ Prediction quality: 283.56 RMSE
 
 ### Sarimax Out-Sample Prediction
 ```
-`pred_uc = res.get_forecast(steps=12)`
+pred = res_s.get_prediction(start=pd.to_datetime('2018-08-19'), end=pd.to_datetime('2018-12-19'))
+pred_ci = pred.conf_int()
 
-`pred_ci = pred_uc.conf_int()`
 ```
 
 ![outsample](/image/sarimax/outsample.png)
