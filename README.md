@@ -40,6 +40,28 @@ For this model, I demonstrated with the weekly closing price and normalized it t
 
 ![weekclose](/image/sarimax/weekclose.png)
 
+```
+def box_cox_rolling_coeffvar(box_cox_param, endog, freq):
+    """helper to find Box-Cox transformation with constant standard deviation
+    
+    returns RLM results instance
+    """
+    roll_air = special.boxcox(endog, box_cox_param).rolling(window=freq)
+    y = roll_air.std() 
+    m = roll_air.mean()
+    x = sm.add_constant(m)
+    res_rlm = sm.RLM(y, x, missing='drop').fit()
+    return res_rlm
+
+endog = df_weeklyclose['close']
+freq = 4
+tt = [(lam, box_cox_rolling_coeffvar(lam, endog, freq).pvalues[1]) for lam in np.linspace(-1, 1, 21)]
+
+tt = np.asarray(tt)
+print(tt[tt[:,1].argmax()])
+
+```
+
 ![boxcox](/image/sarimax/boxcox.png)
 
 
