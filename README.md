@@ -232,6 +232,7 @@ The accuracy for our test set has improved compared to the first neural network 
 
 ![pred2](/image/mlp/pred2.png)
 
+### Long Short Term Memory Network (LSTM)
 
 
 
