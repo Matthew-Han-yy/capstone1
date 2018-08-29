@@ -18,6 +18,14 @@ I tried out the ARIMA, SARIMAX models for statsmodels and for the deep learning 
 
 ## ARIMA model
 
+ARIMA is acronym for AR, I, and MA.
+
+```
+AR: Autoregression. A model that uses the dependent relationship between an observation and some number of lagged observations.
+I: Integrated. The use of differencing of raw observations (e.g. subtracting an observation from an observation at the previous time step) in order to make the time series stationary.
+MA: Moving Average. A model that uses the dependency between an observation and a residual error from a moving average model applied to lagged observations.
+```
+### Time Decomposition
 Time decomposition charts are useful to get an initial feel of the time series data. Here, the additive Time Decomposition chart shows some trend, seasonality and noise detected in the time series data. 
 
 ![timedecomp1](/image/arima/timedecomp1.png)
@@ -33,6 +41,30 @@ The ACF plot is merely a bar chart of the coefficients of correlation between a 
 
 ### Fit and plot the ARIMA model
 
+```
+ar1ma1 = ARMA(series_diff, (1, 1)).fit()
+ar1ma1.summary()
+```
+
+![arima_summary](/image/arima/arima_summary.png)
+
+An ARIMA model can be created as follow:
+
+Define the model by calling ARMA() and passing in the p, and q parameters.
+The model is prepared on the training data by calling the fit() function.
+The training data is the differenced series. In this case, this is a first-differenced series. 
+Predictions can be made by calling the predict() function and specifying the index of the time or times to be predicted.
+`predictions = ar1ma1.predict()`
+
+The below plot compares the predicted series with first-differenced series that was fed into the model.
+![series_diff](/image/arima/series_diff.png)
+
+The below plot compares the predicted full signal with the original full signal. 
+![fullpred](/image/arima/fullpred.png)
+
+The predicted signal looked promising, following the supposed trend, however, it could have been better. This is because if ether holder were to sell off earlier near the predicted peak, they would have missed out on the huge bull run which came after. 
+
+Hence, rather than manually grid-search through the various permutation of parameters, I have also tried letting the machine do the hard work of finding the optimal parameters for us as shown next. 
 
 ## SARIMAX model
 
@@ -70,7 +102,7 @@ ax = special.boxcox(df_weeklyclose['close'], 0).rolling(window=4).std().plot(fig
 ![boxcox](/image/sarimax/boxcox.png)
 
 
-I also tried using Auto-Arima from the **pyramid.arima** library to help me in finding the optimal model in this approach. 
+I have also tried using Auto-Arima from the **pyramid.arima** library to help me in finding the optimal model in this approach. 
 ```
 # Auto Arima
 stepwise_model = auto_arima(weeklyclose_t, start_p=1, start_q=1,
