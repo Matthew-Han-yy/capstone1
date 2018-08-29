@@ -40,6 +40,7 @@ The ACF plot is merely a bar chart of the coefficients of correlation between a 
 ![acfpacf](/image/arima/acfpacf.png)
 
 ### Fit and plot the ARIMA model
+#### In-sample prediction
 
 ```
 ar1ma1 = ARMA(series_diff, (1, 1)).fit()
@@ -64,7 +65,23 @@ The below plot compares the predicted full signal with the original full signal.
 
 The predicted signal looked promising, following the supposed trend, however, it could have been better. This is because if ether holder were to sell off earlier near the predicted peak, they would have missed out on the huge bull run which came after. 
 
+#### Out-of-sample prediction
+
+Out-of-sample prediction starts at row 100 and **dynamic** is set to **True**. The dynamic keyword affects in-sample prediction. If dynamic is False, then the in-sample lagged values are used for prediction. If dynamic is True, then in-sample forecasts are used in place of lagged dependent variables. The first forecasted value is start.
+
+`predictions_oos = ar1ma1.predict(start=100, dynamic=True)`
+
+A plot of the out-of-sample prediction is done below,
+
+![oos_full](/image/arima/oos_full.png)
+
+We can observe that the model fit is relatively good, yet the forecast is very weak. In fact, the forecast quickly reverts to the mean. It is important to note that a good in-sample fit does not necessarily equate to a good forecast, and vice-versa.
+
+The reason that forecasting fails here is that there was no consideration during model fitting to identify the key drivers of the time series. 
+
 Hence, rather than manually grid-search through the various permutation of parameters, I have also tried letting the machine do the hard work of finding the optimal parameters for us as shown next. 
+
+
 
 ## SARIMAX model
 
