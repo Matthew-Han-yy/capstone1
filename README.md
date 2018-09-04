@@ -322,7 +322,6 @@ A plot of the prediction against the actual, with **R2 score = 0.63** looks pret
 
 ![lstmpred](/image/lstm/lstmpred.png)
 
-
 ## Next steps
 #### Hyperparamters tuning
 Hyperparameter tuning can be explored, we can take note of the following points if we were to manually optimize hyperparameters for RNNs.
@@ -335,7 +334,16 @@ Hyperparameter tuning can be explored, we can take note of the following points 
 
 ## In Conclusion
 To predict the future price of cryptocurrencies is tougher than it looks. I've tried Arima, Sarimax, MLPN and LSTM. In some cases the results look promising. But there are also alot more details that can still be improved.
-    
+ 
+#### credit sources:
+http://dacatay.com/data-science/part-6-time-series-prediction-neural-networks-python/
+https://www.digitalocean.com/community/tutorials/a-guide-to-time-series-forecasting-with-arima-in-python-3
+https://machinelearningmastery.com/sarima-for-time-series-forecasting-in-python/
+https://medium.com/@josemarcialportilla/using-python-and-auto-arima-to-forecast-seasonal-time-series-90877adff03c
+https://www.datascience.com/blog/time-series-forecasting-machine-learning-differences
+https://www.analyticsvidhya.com/blog/2017/12/fundamentals-of-deep-learning-introduction-to-lstm/
+
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
